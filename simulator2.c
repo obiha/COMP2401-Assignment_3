@@ -69,7 +69,6 @@ char* randomPlate(){
     char *string[7];
     char *word;
     char str[7] = "";
-    char new[7] ="";
     word = malloc(7 * sizeof(char));
 
     for(int i = 0; i < 3; i++){
@@ -83,9 +82,9 @@ char* randomPlate(){
         word[i] = randomNumber;}
 
     for(int i = 0; i <  7; i++){
-       str[i] = ((char)word[i]);
+        str[i] = ((char)word[i]);
     }
-        return word;
+    return word;
 }
 
 // Initialize the car pointed to by c to have the given plate and
@@ -122,7 +121,7 @@ Car* randomCar(){
     if(iniCar == NULL){
         printf("Memory Allocation Error\n");
     }
-    
+
     initializeCar(iniCar,randomPlate(), randomPermit);
 
     printf("Car %s ",iniCar->plateNumber);
@@ -198,27 +197,27 @@ int main() {
     int    capacity   = 5;
     double hourlyRate = 4.0;
     double maxCharge  = 12.0;
-    
+
     ParkingLot* lotArr = (ParkingLot*) malloc(5 * sizeof(ParkingLot));
     Car* car = (Car*)malloc(sizeof(Car) *50);
     ParkingLot* lot = (ParkingLot*) malloc (sizeof(ParkingLot));
-    
+
     if(car == NULL){
         printf("Malloc of size failed\n");
     }
 
     for(int i = 0; i < 50; i++){
-        car[i] = *randomCar();   
-        }
 
-    // for(int i = 0; i < 50; i++){
-    //     printf("%s\n",car[i].plateNumber);
-    // }
+        car[i] = *randomCar();
+        
+    }
+
+
 
     printf("\n");
     for(int i = 0; i < 5; i++){
         initializeLot(lot, num, capacity, hourlyRate, maxCharge);
-                
+
         num = num  +  1;;
         capacity   = capacity + 5;
         hourlyRate = hourlyRate + 1;
@@ -228,19 +227,19 @@ int main() {
         lotArr[i]  = *lot;
         // lot++;
 
-        
-    }
-printf("\n");
 
- 
+    }
+    printf("\n");
+
+
 
 
 
     for(int i = 0; i < 50; i++){
 
-        
 
-        int randomLot = 0;  
+
+        int randomLot = 0;
         randomLot = (rand() % (4 - 0 + 1)) + 0;
 
         carEnters(&lotArr[randomLot], car, hour, minute);
@@ -263,48 +262,32 @@ printf("\n");
         printLotInfo(lotArr[i]);
     }
 
-
-    // printf("%d",lotArr[0].lotNumber);
-
-
-
-
-    
+    for(int i = 0; i < 50; i++) {
+        carLeaves(&lotArr[i], car, hour, minute);
 
 
 
-    carLeaves(&lotArr[5], car, hour, minute);
+             minute = minute + 5;
 
-    // for(int i = 0; i < 5; i++){
-    //     hour = 11;
-    //     minute = 0;
+              if(minute == 60){
+                  minute = 0;
+                  hour = hour + 1;
+              }
 
-    //     // if(&lotArr[i] != NULL){
-    //     //     // printf("Lot is not empty\n");S
-    //     //     printf("%d\n", lotArr[i].currentCarCount);
-    //     //     // carLeaves(lotArr, car, hour, minute);
+              if(hour == 24){
+                  hour = 0;
+              }
 
-    //     // }else
-    
 
-    // //    minute = minute + 5;
 
-    // //     if(minute == 60){
-    // //         minute = 0;
-    // //         hour = hour + 1;
-    // //     }
 
-    //     // if(hour == 24){
-    //     //     hour = 0;
-    //     // }
-    //     // car++;
-        
 
-    //     printf("\n");
+//        lotArr++;
+//        car++;
+    }
+//    carLeaves(&lotArr[1], car, hour, minute);
 
-    
-    // }
 
 }
-    
+
 
