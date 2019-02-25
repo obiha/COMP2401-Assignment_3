@@ -6,6 +6,9 @@
 
 #define ONE_MINUTE 60
 
+
+
+
 typedef struct{
     int hour;
     int minute;
@@ -60,32 +63,30 @@ void difference(Time t1, Time t2, Time *diff) {
     //diff pointer takes in the (difference) for hour and minute
 }
 
-char *randomPlate(){
+char* randomPlate(){
 
-    char words = malloc()
+    int randomNumber = 0;
+    char *string[7];
+    char *word;
+    char str[7] = "";
+    char new[7] ="";
+    word = malloc(7 * sizeof(char));
 
+    for(int i = 0; i < 3; i++){
+        randomNumber = (rand() % (90 - 65 + 1)) + 65;
+        word[i] = randomNumber;}
 
+    word[3] = 32;
 
-    char randomletter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[rand() % 26];
+    for(int i = 4; i < 7; i++){
+        randomNumber = (rand() % (57 - 48 + 1)) + 48;
+        word[i] = randomNumber;}
 
-    for(int i = 0; i < 4; i++){
-        randomletter;
+    for(int i = 0; i <  7; i++){
+       str[i] = ((char)word[i]);
     }
-
-
-
-    char threeLetters;
-
-
-
-
-
-    return "0";
+        return word;
 }
-
-
-
-
 
 // Initialize the car pointed to by c to have the given plate and
 // hasPermit status.  The car should have it’s lotParkedIn set to
@@ -110,6 +111,31 @@ void initializeLot(ParkingLot *p, int num, int cap, double rate, double max) {
     p->currentCarCount  = 0; //current Car count initialized to 0
     p->revenue          = 0; // the revenue initialized to 0
 }
+
+Car* randomCar(){
+
+    int randomPermit = 0;
+    randomPermit = (rand() % (1 - 0 + 1)) + 0;
+
+    Car* iniCar = (Car*)malloc(sizeof(Car));
+
+    if(iniCar == NULL){
+        printf("Memory Allocation Error\n");
+    }
+    
+    initializeCar(iniCar,randomPlate(), randomPermit);
+
+    printf("Car %s ",iniCar->plateNumber);
+    printf("with permit %d \n",iniCar->permit);
+
+    return iniCar;
+}
+
+
+
+
+
+
 // Print out the parking lot parameters so that is displays as
 // follows:   Parking Lot #2 - rate = $3.00, capacity 6, current cars 5
 
@@ -164,67 +190,121 @@ void carLeaves(ParkingLot* p,Car* c, int hour,int minute){
 
 int main() {
     srand(time(NULL));
-    Car  car1, car2, car3, car4, car5, car6, car7, car8, car9;
-    ParkingLot p1, p2;
 
+    int hour = 6;
+    int minute = 0;
 
+    int    num        = 1;
+    int    capacity   = 5;
+    double hourlyRate = 4.0;
+    double maxCharge  = 12.0;
+    
+    ParkingLot* lotArr = (ParkingLot*) malloc(5 * sizeof(ParkingLot));
+    Car* car = (Car*)malloc(sizeof(Car) *50);
+    ParkingLot* lot = (ParkingLot*) malloc (sizeof(ParkingLot));
+    
+    if(car == NULL){
+        printf("Malloc of size failed\n");
+    }
 
-    // Set up 9 cars
-    initializeCar(&car1, "ABC 123", 0);
-    initializeCar(&car2, "ABC 124", 0);
-    initializeCar(&car3, "ABD 314", 0);
-    initializeCar(&car4, "ADE 901", 0);
-    initializeCar(&car5, "AFR 304", 0);
-    initializeCar(&car6, "AGD 888", 0);
-    initializeCar(&car7, "AAA 111", 0);
-    initializeCar(&car8, "ABB 001", 0);
-    initializeCar(&car9, "XYZ 678", 1);
+    for(int i = 0; i < 50; i++){
+        car[i] = *randomCar();   
+        }
 
-    // Set up two parking lots
-    initializeLot(&p1, 1, 4, 5.5, 20.0);
-    initializeLot(&p2, 2, 6, 3.0, 12.0);
-
-    printLotInfo(p1);
-    printLotInfo(p2);
-    printf("\n");
-
-    // Simulate cars entering the lots
-    carEnters(&p1, &car1, 7, 15);
-    carEnters(&p1, &car2, 7, 25);
-    carEnters(&p2, &car3, 8, 00);
-    carEnters(&p2, &car4, 8, 10);
-    carEnters(&p1, &car5, 8, 15);
-    carEnters(&p1, &car6, 8, 20);
-    carEnters(&p1, &car7, 8, 30);
-    carEnters(&p2, &car7, 8, 32);
-    carEnters(&p2, &car8, 8, 50);
-    carEnters(&p2, &car9, 8, 55);
+    // for(int i = 0; i < 50; i++){
+    //     printf("%s\n",car[i].plateNumber);
+    // }
 
     printf("\n");
-    printLotInfo(p1);
-    printLotInfo(p2);
-    printf("\n");
+    for(int i = 0; i < 5; i++){
+        initializeLot(lot, num, capacity, hourlyRate, maxCharge);
+                
+        num = num  +  1;;
+        capacity   = capacity + 5;
+        hourlyRate = hourlyRate + 1;
+        maxCharge  =  maxCharge + 2;
 
-    // Simulate cars leaving the lots
-    carLeaves(&p2, &car4, 9, 0);
-    carLeaves(&p1, &car2, 9, 5);
-    carLeaves(&p1, &car6, 10, 0);
-    carLeaves(&p1, &car1, 10, 30);
-    carLeaves(&p2, &car8, 13, 0);
-    carLeaves(&p2, &car9, 15, 15);
-    carEnters(&p1, &car8, 17, 10);
-    carLeaves(&p1, &car5, 17, 50);
-    carLeaves(&p2, &car7, 18, 0);
-    carLeaves(&p2, &car3, 18, 15);
-    carLeaves(&p1, &car8, 20, 55);
+        printLotInfo(*lot);
+        lotArr[i]  = *lot;
+        // lot++;
+
+        
+    }
+printf("\n");
+
+ 
+
+
+
+    for(int i = 0; i < 50; i++){
+
+        
+
+        int randomLot = 0;  
+        randomLot = (rand() % (4 - 0 + 1)) + 0;
+
+        carEnters(&lotArr[randomLot], car, hour, minute);
+
+        minute = minute + 5;
+
+        if(minute == 60){
+            minute = 0;
+            hour = hour + 1;
+        }
+
+        if(hour == 24){
+            hour = 0;
+        }
+        car++;
+    }
 
     printf("\n");
-    printLotInfo(p1);
-    printLotInfo(p2);
-    printf("\n");
+    for(int i = 0; i < 5; i++){
+        printLotInfo(lotArr[i]);
+    }
 
-    // Display the total revenue
-    printf("Total revenue of Lot 1 is $%4.2f\n", p1.revenue);
-    printf("Total revenue of Lot 2 is $%4.2f\n", p2.revenue);
+
+    // printf("%d",lotArr[0].lotNumber);
+
+
+
+
+    
+
+
+
+    carLeaves(&lotArr[5], car, hour, minute);
+
+    // for(int i = 0; i < 5; i++){
+    //     hour = 11;
+    //     minute = 0;
+
+    //     // if(&lotArr[i] != NULL){
+    //     //     // printf("Lot is not empty\n");S
+    //     //     printf("%d\n", lotArr[i].currentCarCount);
+    //     //     // carLeaves(lotArr, car, hour, minute);
+
+    //     // }else
+    
+
+    // //    minute = minute + 5;
+
+    // //     if(minute == 60){
+    // //         minute = 0;
+    // //         hour = hour + 1;
+    // //     }
+
+    //     // if(hour == 24){
+    //     //     hour = 0;
+    //     // }
+    //     // car++;
+        
+
+    //     printf("\n");
+
+    
+    // }
+
 }
+    
 
