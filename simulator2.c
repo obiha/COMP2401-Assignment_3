@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
+#include <time.h>
+#include <stdlib.h>
 
 #define ONE_MINUTE 60
 
@@ -57,6 +59,34 @@ void difference(Time t1, Time t2, Time *diff) {
     diff->minute = minuteDifference;
     //diff pointer takes in the (difference) for hour and minute
 }
+
+char *randomPlate(){
+
+    char words = malloc()
+
+
+
+    char randomletter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[rand() % 26];
+
+    for(int i = 0; i < 4; i++){
+        randomletter;
+    }
+
+
+
+    char threeLetters;
+
+
+
+
+
+    return "0";
+}
+
+
+
+
+
 // Initialize the car pointed to by c to have the given plate and
 // hasPermit status.  The car should have it’s lotParkedIn set to
 // 0 and enteringTime to be -1 hours and -1 minutes.
@@ -115,24 +145,29 @@ void carLeaves(ParkingLot* p,Car* c, int hour,int minute){
     c->leavingTime.hour = hour;
     c->leavingTime.minute = minute;
 
-    int time = c->leavingTime.hour - c->enteringTime.hour;
-    double charge = (p->hourlyRate * time);
-    p->revenue += charge;
 
-    printf("Car %s leaves Lot %d at %d:%d, paid $%.2f\n", c->plateNumber, p->lotNumber, hour, minute, charge);
+    if(c->permit){
+        printf("Car %s leaves Lot %d at %d:%d\n", c->plateNumber, p->lotNumber, hour, minute);
+    }else {
+        int time = c->leavingTime.hour - c->enteringTime.hour;
+        double charge = (p->hourlyRate * time);
+        if(charge > p->maxCharge || charge > 15){
+            charge = p->maxCharge;
+        }
+        p->revenue += charge;
 
+
+        printf("Car %s leaves Lot %d at %d:%d, paid $%.2f\n", c->plateNumber, p->lotNumber, hour, minute, charge);
+    }
 
 }
 
-//
-//char* randomPlate(){
-//
-//
-//}
-
 int main() {
+    srand(time(NULL));
     Car  car1, car2, car3, car4, car5, car6, car7, car8, car9;
     ParkingLot p1, p2;
+
+
 
     // Set up 9 cars
     initializeCar(&car1, "ABC 123", 0);
@@ -156,7 +191,7 @@ int main() {
     // Simulate cars entering the lots
     carEnters(&p1, &car1, 7, 15);
     carEnters(&p1, &car2, 7, 25);
-    carEnters(&p2, &car3, 8,  0);
+    carEnters(&p2, &car3, 8, 00);
     carEnters(&p2, &car4, 8, 10);
     carEnters(&p1, &car5, 8, 15);
     carEnters(&p1, &car6, 8, 20);
